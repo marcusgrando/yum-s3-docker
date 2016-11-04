@@ -5,7 +5,8 @@ ENV AWS_ACCESS_KEY_ID none
 ENV AWS_SECRET_ACCESS_KEY none
 
 # Add Fuse and Boto support
-RUN yum -y update && yum -y install fuse fuse-libs createrepo python-boto rsync
+RUN yum -y update && yum -y install fuse fuse-libs createrepo rsync epel-release
+RUN yum -y install python-pip && pip install boto
 RUN yum -y install automake fuse-devel gcc-c++ libcurl-devel libxml2-devel make openssl-devel
 RUN curl -L https://github.com/s3fs-fuse/s3fs-fuse/archive/v1.80.tar.gz | tar -xzf - \
     && cd s3fs-fuse-1.80 \
