@@ -3,6 +3,8 @@
 import os
 import time
 import json
+import tempfile
+import shutil
 import boto.sqs
 
 while True:
@@ -19,7 +21,11 @@ while True:
                         p = os.path.join('/mnt', os.getenv('REPO'), os.path.dirname(f))
                         print 'INFO: Processing', p
                         if os.path.isfile(p+'/.rpm') or os.path.isfile(p+'/.createrepo'):
-                            os.system('createrepo --update --no-database '+p)
+                            tmpdir = tempfile.mkdtemp()
+                            os.system('rsync -rv %s/repodata %s/' % (p, tmpdir))
+                            os.system('createrepo -v --update -o %s %s > %s/repodata/log 2>&1' % (tmpdir, p, tmpdir))
+                            os.system('rsync -rv --delete %s/repodata/ %s/repodata/' % (tmpdir, p))
+                            shutil.rmtree(tmpdir)
                     q.delete_message(m[0])
                 except Exception, e:
                     print 'ERR: JSON Format,', e
