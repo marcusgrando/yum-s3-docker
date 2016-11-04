@@ -15,14 +15,14 @@ while True:
                 try:
                     body = json.loads(m[0].get_body())
                     f = body['Records'][0]['s3']['object']['key']
-                    if '.rpm' in f:
+                    if f.endswith('.rpm') or f.endswith('.createrepo'):
                         p = os.path.join('/mnt', os.getenv('REPO'), os.path.dirname(f))
-                        print 'INFO[processing]:', p
-                        if os.path.isdir(p+'/.rpm'):
+                        print 'INFO: Processing', p
+                        if os.path.isfile(p+'/.rpm') or os.path.isfile(p+'/.createrepo'):
                             os.system('createrepo --update --no-database '+p)
                     q.delete_message(m[0])
                 except Exception, e:
-                    print 'ERR[json]:', e
+                    print 'ERR: JSON Format,', e
                     q.delete_message(m[0])
             else:
                 print 'INFO: Queue is empty'
