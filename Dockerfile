@@ -1,6 +1,8 @@
 FROM centos:latest
 MAINTAINER Marcus Grando <marcus@sbh.eng.br>
 
+ENV REPO none
+ENV REGION none
 ENV AWS_ACCESS_KEY_ID none
 ENV AWS_SECRET_ACCESS_KEY none
 
