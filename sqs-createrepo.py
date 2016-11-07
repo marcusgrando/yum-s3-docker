@@ -20,7 +20,7 @@ while True:
                     if f.endswith('.rpm') or f.endswith('.createrepo'):
                         p = os.path.join('/mnt', os.getenv('REPO'), os.path.dirname(f))
                         print 'INFO: Processing', p
-                        if os.path.isfile(p+'/.rpm') or os.path.isfile(p+'/.createrepo'):
+                        if os.path.isfile(p+'/.createrepo'):
                             tmpdir = tempfile.mkdtemp()
                             os.system('rsync -rv %s/repodata %s/' % (p, tmpdir))
                             os.system('createrepo -v --update -o %s %s > %s/repodata/log 2>&1' % (tmpdir, p, tmpdir))
