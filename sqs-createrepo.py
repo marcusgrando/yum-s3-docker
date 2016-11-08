@@ -28,11 +28,11 @@ while True:
                             shutil.rmtree(tmpdir)
                     q.delete_message(m[0])
                 except Exception, e:
-                    print 'ERR: JSON Format,', e
+                    print 'ERR:', e
                     q.delete_message(m[0])
             else:
                 print 'INFO: Queue is empty'
-                time.sleep(1)
+                time.sleep(3)
         else:
             print 'WARN: Queue %r not found' % os.getenv('REPO')
     except Exception, e:
