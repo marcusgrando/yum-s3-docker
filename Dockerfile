@@ -11,13 +11,13 @@ RUN yum -y update \
     && yum -y install fuse fuse-libs createrepo rsync epel-release \
     && yum -y install python-pip && pip install boto \
     && yum -y install automake fuse-devel gcc-c++ libcurl-devel libxml2-devel make openssl-devel \
-    && curl -L https://github.com/s3fs-fuse/s3fs-fuse/archive/v1.82.tar.gz | tar -xzf - \
-    && cd s3fs-fuse-1.82 \
+    && curl -L https://github.com/s3fs-fuse/s3fs-fuse/archive/v1.86.tar.gz | tar -xzf - \
+    && cd s3fs-fuse-1.86 \
     && ./autogen.sh && ./configure --prefix=/usr \
     && make \
     && make install \
     && cd .. \
-    && rm -rf s3fs-fuse-1.82 \
+    && rm -rf s3fs-fuse-1.86 \
     && yum -y history undo last \
     && yum clean all
 
