@@ -9,7 +9,7 @@ import boto.sqs
 
 while True:
     try:
-	conn = boto.sqs.connect_to_region(os.getenv('REGION'))
+        conn = boto.sqs.connect_to_region(os.getenv('REGION'))
         q = conn.get_queue(os.getenv('REPO'))
         if q:
             m = q.get_messages()
@@ -19,7 +19,7 @@ while True:
                     f = body['Records'][0]['s3']['object']['key']
                     if f.endswith('.rpm') or f.endswith('.createrepo'):
                         p = os.path.join('/mnt', os.getenv('REPO'), os.path.dirname(f))
-                        print 'INFO: Processing', p
+                        print('INFO: Processing', p)
                         if os.path.isfile(p+'/.createrepo'):
                             tmpdir = tempfile.mkdtemp()
                             os.system('rsync -rv %s/repodata %s/' % (p, tmpdir))
@@ -27,14 +27,14 @@ while True:
                             os.system('rsync -rv --delete %s/repodata/ %s/repodata/' % (tmpdir, p))
                             shutil.rmtree(tmpdir)
                     q.delete_message(m[0])
-                except Exception, e:
-                    print 'ERR:', e
+                except Exception as e:
+                    print('ERR:', e)
                     q.delete_message(m[0])
             else:
-                print 'INFO: Queue is empty'
+                print('INFO: Queue is empty')
                 time.sleep(3)
         else:
-            print 'WARN: Queue %r not found' % os.getenv('REPO')
-    except Exception, e:
-        print 'ERR:', e
+            print('WARN: Queue %r not found' % os.getenv('REPO'))
+    except Exception as e:
+        print('ERR:', e)
         time.sleep(5)
