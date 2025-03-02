@@ -72,10 +72,16 @@ jobs:
         id: check-updates
         if: steps.pull-image.outcome == 'success' && steps.pull-image.outputs.force_build != 'true'
         run: |
-          CONTAINER_ID=$(docker run -d --rm ${{ secrets.DOCKER_REGISTRY }}/yum-s3-docker:latest microdnf check-update --security)
-          sleep 5
-          UPDATES=$(docker logs $CONTAINER_ID)
-          docker stop $CONTAINER_ID || true
+          CONTAINER_ID=$(docker run -d ${{ secrets.DOCKER_REGISTRY }}/yum-s3-docker:latest microdnf check-update --security)
+          sleep 30
+          
+          # Get the logs
+          UPDATES=$(docker logs $CONTAINER_ID 2>/dev/null || echo "Container already exited")
+          
+          # Check container status and remove it properly
+          if docker ps -a --filter "id=$CONTAINER_ID" --format '{{.ID}}' | grep -q .; then
+            docker rm -f $CONTAINER_ID 2>/dev/null || true
+          fi
           
           if echo "$UPDATES" | grep -q "Security"; then
             echo "Security updates available"
