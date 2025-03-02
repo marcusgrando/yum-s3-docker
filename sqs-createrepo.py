@@ -23,7 +23,7 @@ while True:
                         if os.path.isfile(p+'/.createrepo'):
                             tmpdir = tempfile.mkdtemp()
                             os.system('rsync -rv %s/repodata %s/' % (p, tmpdir))
-                            os.system('createrepo -v --update -o %s %s > %s/repodata/log 2>&1' % (tmpdir, p, tmpdir))
+                            os.system('createrepo_c -v --update -o %s %s > %s/repodata/log 2>&1' % (tmpdir, p, tmpdir))
                             os.system('rsync -rv --delete %s/repodata/ %s/repodata/' % (tmpdir, p))
                             shutil.rmtree(tmpdir)
                     q.delete_message(m[0])
