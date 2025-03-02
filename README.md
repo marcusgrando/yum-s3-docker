@@ -16,6 +16,7 @@ The Docker image has been optimized to have the smallest possible size:
 
 ## Environment Variables
 
+<<<<<<< HEAD
 ### Required Variables
 - `REPO`: S3 bucket name and SQS queue name
 - `REGION`: AWS region
@@ -35,6 +36,15 @@ The following credentials must be provided at runtime:
 
 ### Using Environment Variables
 
+=======
+- `REPO`: S3 bucket name and SQS queue name
+- `REGION`: AWS region
+- `AWS_ACCESS_KEY_ID`: AWS access key
+- `AWS_SECRET_ACCESS_KEY`: AWS secret key
+
+## How to Use
+
+>>>>>>> f7e476fe131eb51c5fb3fc6e3fdb3c05a5aa1a86
 ```bash
 docker run -d \
   -e REPO=my-bucket \
@@ -47,6 +57,7 @@ docker run -d \
   yum-s3-docker
 ```
 
+<<<<<<< HEAD
 ### Using IAM Roles (Recommended for AWS environments)
 
 When running in AWS environments (ECS, EKS, etc.), you can use IAM roles instead of hardcoded credentials:
@@ -62,6 +73,8 @@ docker run -d \
   yum-s3-docker
 ```
 
+=======
+>>>>>>> f7e476fe131eb51c5fb3fc6e3fdb3c05a5aa1a86
 ## CI/CD and Security
 
 This image includes a GitHub Actions workflow that:
