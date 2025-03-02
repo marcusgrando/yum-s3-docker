@@ -13,8 +13,8 @@ jobs:
   # Job to build and push to Docker Hub on each commit
   build-and-push:
     runs-on: ubuntu-latest
-    # Execute only on push or workflow_dispatch
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    # Execute only on push
+    if: github.event_name == 'push'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
